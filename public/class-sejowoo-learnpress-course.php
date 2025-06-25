@@ -98,9 +98,8 @@ class Course {
      */
     public function display_purchase_button() {
 
-		$course           = \LP_Global::course();
-		$user             = \LP_Global::user();
-		$button_available = false;
+		$course = \LP_Global::course();
+		$user   = \LP_Global::user();
 
 		if ( $course->get_external_link() ) {
 			return;
@@ -110,10 +109,16 @@ class Course {
 			return;
 		}
 
+		// Check if user is valid
+		if ( ! $user || ! $user instanceof \LP_User ) {
+			return;
+		}
+
 		if ( $user->has_enrolled_course( $course->get_id() ) ) {
 			return;
 		}
 
+		// Optional: check purchase permission if needed
 		// if ( ! $user->can_purchase_course( $course->get_id() ) ) {
 		// 	return;
 		// }
@@ -126,7 +131,7 @@ class Course {
 
 		require SEJOWOO_LEARNPRESS_DIR . 'template/purchase-buttons.php';
 
-    }
+	}
 
 	/**
 	 * Change block button to list product
